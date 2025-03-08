@@ -1,8 +1,17 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   reactStrictMode: true,
+
+  webpack: (config: { externals: string[]; module: { rules: { test: RegExp; use: string[]; }[]; }; }) => {
+    config.externals.push('pino-pretty', 'lokijs', 'encoding');
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack'],
+      
+    });
+    
+    return config;
+  },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
